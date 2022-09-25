@@ -1,6 +1,5 @@
 import renderHomePage from "./components/HomePage/renderHomePage.js";
-import renderRegisterForm from "./components/RegisterForm/renderRegisterForm.js";
-import renderLoginForm from "./components/LoginForm/renderLoginForm.js";
+import renderLoginPage from "./components/LoginPage/renderLoginPage.js";
 
 // Selecting the content section
 const contentContainer = document.querySelector(".content");
@@ -14,9 +13,13 @@ const loginButton = document.getElementById("login-anchor");
 
 // Rendering the home page on initial page load
 renderHomePage();
-renderRegisterForm();
-contentContainer.appendChild(renderLoginForm());
+
 // Navbar buttons listeners
 
 // Home button
 homeButton.addEventListener("click", renderHomePage);
+
+// Login button
+loginButton.addEventListener("click", () => {
+  renderLoginPage();
+});
