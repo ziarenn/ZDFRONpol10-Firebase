@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
 import renderTodoForm from "./components/TodoForm/renderTodoForm.js";
+import renderTodoPage from "./components/TodoPage/renderTodoPage.js";
 // Selecting the content section
 const contentContainer = document.querySelector(".content");
 
@@ -38,7 +39,7 @@ homeButton.addEventListener("click", renderHomePage);
 // Todos button
 todosButton.addEventListener("click", () => {
   contentContainer.innerHTML = "";
-  contentContainer.appendChild(renderTodoForm());
+  renderTodoPage();
 });
 
 // Login button

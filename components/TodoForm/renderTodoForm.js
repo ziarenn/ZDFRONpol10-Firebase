@@ -66,7 +66,7 @@ export default function () {
   radioSport.setAttribute("type", "radio");
   radioSport.setAttribute("id", "radio-sport");
   radioSport.setAttribute("name", "category");
-  radioSport.setAttribute("value", "Sport");
+  radioSport.setAttribute("value", "sport");
   const sportLabel = document.createElement("label");
   sportLabel.setAttribute("for", "radio-sport");
   sportLabel.textContent = "Sport";
