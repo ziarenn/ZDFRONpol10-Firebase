@@ -53,12 +53,15 @@ export default function () {
     const password = inputPassword.value;
 
     // 8.
-    signInWithEmailAndPassword(auth, email, password).then((creds) => {
-      console.log(creds);
-      console.log("zalogowano");
-      renderHomePage();
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then((creds) => { // 9.
+        console.log(creds);
+        console.log("zalogowano");
+        renderHomePage();
+      })
+      .catch((err) => console.log(err));
   });
 
+  // 10.
   return form;
 }
