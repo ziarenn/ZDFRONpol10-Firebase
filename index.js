@@ -37,8 +37,6 @@ homeButton.addEventListener("click", renderHomePage);
 
 // Login button
 loginButton.addEventListener("click", () => {
-  // Jeżeli user istnieje, to kliknięcie na ten button ma wywołać funkcję signOut i wywołać renderHomePage
-  // Jeżeli user nie istnieje, to kliknięcie na ten button ma wywołać funkcje renderLoginPage
   if (auth.currentUser) {
     signOut(auth)
       .then(() => renderHomePage())

@@ -1,5 +1,6 @@
 import { auth } from "../../firebaseConfig.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
+import renderHomePage from "../HomePage/renderHomePage.js";
 // W funkcji poniżej:
 // 1. Wybranie i wyczyszczenie sekcji o klasie "content"
 // 2. Stwórz element <form> i nadaj mu id 'register-form'.
@@ -51,8 +52,10 @@ export default () => {
       // 1. Zwraca Promise (trzeba bedzie zrobic then chain)
       // 2. Argumenty: obiekt auth (firebaseConfig.js), email, password
       createUserWithEmailAndPassword(auth, email, password1).then(
-        (userCredentials) =>
-          console.log(userCredentials.user.metadata.lastSignInTime)
+        (userCredentials) => {
+          console.log(userCredentials.user.metadata.lastSignInTime);
+          renderHomePage();
+        }
       );
     } else {
       console.log("hasla sie nie zgadzaja");
