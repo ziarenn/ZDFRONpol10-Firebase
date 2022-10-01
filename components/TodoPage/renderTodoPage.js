@@ -8,6 +8,21 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js";
 import { auth, db } from "../../firebaseConfig.js";
 
+const formListener = (event) => {
+  const todoRef = ref(db, "todos/" + auth.currentUser.uid);
+  event.preventDefault();
+  const radios = [...document.getElementsByName("category")];
+  const category = radios.find((el) => el.checked).value;
+  const todoText = document.getElementById("todo-input").value;
+  console.log(category, todoText);
+  push(todoRef, {
+    todoText,
+    category,
+  })
+    .then(() => console.log("Pushed the data to db"))
+    .catch((err) => console.log(err.message));
+};
+
 export default function () {
   const contentContainer = document.querySelector(".content");
 
@@ -22,19 +37,7 @@ export default function () {
       contentContainer.appendChild(h2);
       const todoForm = renderTodoForm();
       contentContainer.appendChild(todoForm);
-      todoForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const radios = [...document.getElementsByName("category")];
-        const category = radios.find((el) => el.checked).value;
-        const todoText = document.getElementById("todo-input").value;
-        console.log(category, todoText);
-        push(todoRef, {
-          todoText,
-          category,
-        })
-          .then(() => console.log("Pushed the data to db"))
-          .catch((err) => console.log(err.message));
-      });
+      todoForm.addEventListener("submit", formListener);
     } else {
       const todos = Object.values(data);
 
@@ -71,6 +74,30 @@ export default function () {
         li.appendChild(div);
         return li;
       });
+
+      // 1.
+      const ul = document.createElement("ul");
+
+      // 2.
+      listItems.forEach((el) => ul.appendChild(el));
+
+      // 3.
+      contentContainer.innerHTML = "";
+
+      // 4.
+      const todoForm = renderTodoForm();
+
+      // 5.
+      contentContainer.appendChild(h2);
+
+      // 6.
+      contentContainer.appendChild(todoForm);
+
+      // 7.
+      contentContainer.appendChild(ul);
+
+      // 8.
+      todoForm.addEventListener("submit", formListener);
     }
   });
 }
