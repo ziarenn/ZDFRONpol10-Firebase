@@ -30,6 +30,7 @@ export default function () {
 
   onValue(todoRef, (snapshot) => {
     const data = snapshot.val();
+    console.log(data);
     if (!data) {
       contentContainer.innerHTML = "";
       const h2 = document.createElement("h2");
@@ -99,17 +100,6 @@ export default function () {
       // 8.
       todoForm.addEventListener("submit", formListener);
 
-      // 1. Wybierz wszystkie edit buttony (wszystkie mają klasę "edit-button"), zwróci wam to HTMLCollection, trzeba przerobić na zwykły array
-      // 2. Na arrayu z pkt 1, wywołaj forEach (el, i).
-      // W środku forEach'a:
-      // a) nadaj na element po którym iterujesz event listener (click)
-      // W środku tego event listenera:
-      // a) usuń z domu element po którym aktualnie iterujesz (.remove())
-      // b) stwórz zmienną div w której będziesz przechowywał diva-rodzica edit buttona (doc.getEBID(`div-${i}`))
-      // c) stwórz zmienną form i wywołaj w niej renderTodoForm
-      // d) nadaj temu formularzowi id zależne od indexu (`todo-form-${i}`)
-      // e) do diva (ppkt b) podpinacie form (ppkt c)
-
       // 1.
       const editButtons = [...document.getElementsByClassName("edit-button")];
 
@@ -121,6 +111,44 @@ export default function () {
           const form = renderTodoForm();
           form.setAttribute("id", `todo-form-${i}`);
           div.appendChild(form);
+
+          form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const todoText = this.childNodes[0].value;
+            const category = [...this.getElementsByTagName("input")]
+              .slice(1, 5)
+              .find((el) => el.checked).value;
+            // const updates = {
+            //   [`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`]: {
+            //     category,
+            //     todoText
+            //   }
+            // };
+
+            // updates[`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`] = {
+            //   category,
+            //   todoText,
+            // };
+
+            update(ref(db), {
+              [`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`]: {
+                category,
+                todoText,
+              },
+            });
+          });
+        });
+      });
+
+      const removeButtons = [
+        ...document.getElementsByClassName("remove-button"),
+      ];
+      removeButtons.forEach((el, i) => {
+        el.addEventListener("click", function () {
+          this.parentElement.parentElement.remove();
+          remove(
+            ref(db, `todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`)
+          );
         });
       });
     }

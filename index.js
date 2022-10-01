@@ -53,4 +53,3 @@ loginButton.addEventListener("click", () => {
     renderLoginPage();
   }
 });
-
