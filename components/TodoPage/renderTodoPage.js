@@ -16,15 +16,6 @@ export default function () {
   onValue(todoRef, (snapshot) => {
     const data = snapshot.val();
     if (!data) {
-      // 1. Wyczyść contentContainer
-      // 2. Stwórz element <h2> z textContent 'Add, remove and edit your todos' i podepnij go do content containera
-      // 3. Wywołaj funkcję renderTodoForm i zapisz wynik wywołania do zmiennej (const todoForm = renderTodoForm())
-      // 4. Podpięcie todo forma do content containera (con.apc(todoForm))
-      // 5. Dodaj event listener na todoForm (reagujemy na submit, pamiętać o event.preventDefault())
-      // W EL:
-      // 6. Wybieracie wszystkie radio inputy i zapisujecie do zmiennej radios (document.getElementsByName (DOKUMENTACJA)), zrób z tego array bo getElementsByName zwraca HTMLCollection
-      // 7. Z tych 4 radio inputów znajdź ten który jest zaznaczony (input.checked, .find(), wybieranie elementów w CSS w zależności od atrybutów), po znalezieniu inputu ściągnąć z niego .value
-      // 8. Wybierz input o id 'todo-input' przy pomocy getElementById i ściągnij z niego value, zapisz do zmiennej
       contentContainer.innerHTML = "";
       const h2 = document.createElement("h2");
       h2.textContent = "Add, remove and edit your todos.";
@@ -37,6 +28,48 @@ export default function () {
         const category = radios.find((el) => el.checked).value;
         const todoText = document.getElementById("todo-input").value;
         console.log(category, todoText);
+        push(todoRef, {
+          todoText,
+          category,
+        })
+          .then(() => console.log("Pushed the data to db"))
+          .catch((err) => console.log(err.message));
+      });
+    } else {
+      const todos = Object.values(data);
+
+      // 1.
+      const h2 = document.createElement("h2");
+      h2.textContent = "Add, remove and edit your todos.";
+
+      // 2.
+      const listItems = todos.map((el, i) => {
+        // 3.
+        const li = document.createElement("li");
+        li.setAttribute("id", `li-${i}`);
+
+        const div = document.createElement("div");
+        div.setAttribute("id", `div-${i}`);
+
+        const span = document.createElement("span");
+        span.textContent = `${el.todoText} (${el.category})`;
+
+        const editButton = document.createElement("button");
+        editButton.setAttribute("id", `edit-button-${i}`);
+        editButton.setAttribute("class", "edit-button");
+        editButton.textContent = "Edit";
+
+        const removeButton = document.createElement("button");
+        removeButton.setAttribute("id", `remove-button-${i}`);
+        removeButton.setAttribute("class", "remove-button");
+        removeButton.textContent = "Remove";
+
+        div.appendChild(span);
+        div.appendChild(editButton);
+        div.appendChild(removeButton);
+
+        li.appendChild(div);
+        return li;
       });
     }
   });
