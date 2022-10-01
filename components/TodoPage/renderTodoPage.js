@@ -98,6 +98,31 @@ export default function () {
 
       // 8.
       todoForm.addEventListener("submit", formListener);
+
+      // 1. Wybierz wszystkie edit buttony (wszystkie mają klasę "edit-button"), zwróci wam to HTMLCollection, trzeba przerobić na zwykły array
+      // 2. Na arrayu z pkt 1, wywołaj forEach (el, i).
+      // W środku forEach'a:
+      // a) nadaj na element po którym iterujesz event listener (click)
+      // W środku tego event listenera:
+      // a) usuń z domu element po którym aktualnie iterujesz (.remove())
+      // b) stwórz zmienną div w której będziesz przechowywał diva-rodzica edit buttona (doc.getEBID(`div-${i}`))
+      // c) stwórz zmienną form i wywołaj w niej renderTodoForm
+      // d) nadaj temu formularzowi id zależne od indexu (`todo-form-${i}`)
+      // e) do diva (ppkt b) podpinacie form (ppkt c)
+
+      // 1.
+      const editButtons = [...document.getElementsByClassName("edit-button")];
+
+      // 2.
+      editButtons.forEach((el, i) => {
+        el.addEventListener("click", () => {
+          el.remove();
+          const div = document.getElementById(`div-${i}`);
+          const form = renderTodoForm();
+          form.setAttribute("id", `todo-form-${i}`);
+          div.appendChild(form);
+        });
+      });
     }
   });
 }
