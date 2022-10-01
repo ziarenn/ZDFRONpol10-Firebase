@@ -39,7 +39,8 @@ homeButton.addEventListener("click", renderHomePage);
 // Todos button
 todosButton.addEventListener("click", () => {
   contentContainer.innerHTML = "";
-  renderTodoPage();
+  const user = auth.currentUser;
+  user ? renderTodoPage() : renderLoginPage();
 });
 
 // Login button
@@ -52,3 +53,4 @@ loginButton.addEventListener("click", () => {
     renderLoginPage();
   }
 });
+
