@@ -1,6 +1,11 @@
 import renderHomePage from "./components/HomePage/renderHomePage.js";
 import renderLoginPage from "./components/LoginPage/renderLoginPage.js";
-import { auth } from "./firebaseConfig.js";
+import {
+  ref,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/9.8.2/firebase-storage.js";
+
+import { auth, storage } from "./firebaseConfig.js";
 import {
   signOut,
   onAuthStateChanged,
@@ -23,6 +28,16 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log(`User is logged in (${user.email}), onAuthStateChanged`);
     loginButton.textContent = "Log out";
+    const h2 = document.querySelector("h2");
+    console.log(h2.textContent);
+    if (h2.textContent === "Welcome!") {
+      const storageRef = ref(storage, `/users/${auth.currentUser.uid}/avatar`);
+      getDownloadURL(storageRef).then((url) => {
+        const img = document.createElement("img");
+        img.setAttribute("src", url);
+        contentContainer.appendChild(img);
+      });
+    }
   } else {
     console.log("No user logged in. onAuthStateChanged");
     loginButton.textContent = "Log in";
