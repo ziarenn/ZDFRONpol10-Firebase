@@ -46,5 +46,37 @@ export default function () {
         console.log("Failed to push data to firestore");
       });
   });
-}
 
+  // ==KONIEC FOREACH I FUNKCJI READDOCDATA==
+  // 8. Wywołanie readDocData
+  // 9. Podepnij ul (pkt 1) do content container.
+
+  // 1.
+  const ul = document.createElement("ul");
+  ul.setAttribute("id", "teams-todo-list");
+
+  // 2.
+  const readDocData = async () => {
+    try {
+      // 3.
+      const querySnapshot = await getDocs(collection(firestore, "teams"));
+
+      // 4.
+      querySnapshot.forEach((doc) => {
+    
+        const { todoText, category } = doc.data();
+
+        // 6.
+        const li = document.createElement("li");
+        li.textContent = `${todoText} (${category})`;
+        
+        // 7.
+        ul.appendChild(li);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  readDocData();
+  contentContainer.appendChild(ul);
+}

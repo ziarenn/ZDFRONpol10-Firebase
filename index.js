@@ -5,16 +5,16 @@ import {
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
-import renderTodoForm from "./components/TodoForm/renderTodoForm.js";
 import renderTodoPage from "./components/TodoPage/renderTodoPage.js";
 import renderTeamPage from "./components/TeamPage/renderTeamPage.js";
+import renderStoragePage from "./components/StoragePage/renderStoragePage.js";
 // Selecting the content section
 const contentContainer = document.querySelector(".content");
 
 // Selecting navbar anchors
 const homeButton = document.getElementById("home-anchor");
 const todosButton = document.getElementById("todos-anchor");
-const aboutButton = document.getElementById("about-anchor");
+const storageButton = document.getElementById("storage-anchor");
 const publicButton = document.getElementById("public-anchor");
 const loginButton = document.getElementById("login-anchor");
 
@@ -56,3 +56,5 @@ loginButton.addEventListener("click", () => {
 });
 
 publicButton.addEventListener("click", renderTeamPage);
+
+storageButton.addEventListener("click", renderStoragePage);
