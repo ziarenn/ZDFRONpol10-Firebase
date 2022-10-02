@@ -7,6 +7,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js";
 import renderTodoForm from "./components/TodoForm/renderTodoForm.js";
 import renderTodoPage from "./components/TodoPage/renderTodoPage.js";
+import renderTeamPage from "./components/TeamPage/renderTeamPage.js";
 // Selecting the content section
 const contentContainer = document.querySelector(".content");
 
@@ -53,3 +54,5 @@ loginButton.addEventListener("click", () => {
     renderLoginPage();
   }
 });
+
+publicButton.addEventListener("click", renderTeamPage);

@@ -118,17 +118,6 @@ export default function () {
             const category = [...this.getElementsByTagName("input")]
               .slice(1, 5)
               .find((el) => el.checked).value;
-            // const updates = {
-            //   [`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`]: {
-            //     category,
-            //     todoText
-            //   }
-            // };
-
-            // updates[`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`] = {
-            //   category,
-            //   todoText,
-            // };
 
             update(ref(db), {
               [`todos/${auth.currentUser.uid}/${Object.keys(data)[i]}`]: {
