@@ -3,6 +3,7 @@ import {
   collection,
   addDoc,
   getDocs,
+  onSnapshot,
 } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js";
 import { firestore } from "../../firebaseConfig.js";
 
@@ -56,27 +57,44 @@ export default function () {
   ul.setAttribute("id", "teams-todo-list");
 
   // 2.
-  const readDocData = async () => {
-    try {
-      // 3.
-      const querySnapshot = await getDocs(collection(firestore, "teams"));
+  // const readDocData = async () => {
+  //   try {
+  //     // 3.
+  //     const querySnapshot = await getDocs(collection(firestore, "teams"));
 
-      // 4.
-      querySnapshot.forEach((doc) => {
-    
-        const { todoText, category } = doc.data();
+  //     // 4.
+  //     querySnapshot.forEach((doc) => {
+  //       const { todoText, category } = doc.data();
 
-        // 6.
-        const li = document.createElement("li");
-        li.textContent = `${todoText} (${category})`;
-        
-        // 7.
-        ul.appendChild(li);
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  readDocData();
+  //       // 6.
+  //       const li = document.createElement("li");
+  //       li.textContent = `${todoText} (${category})`;
+
+  //       // 7.
+  //       ul.appendChild(li);
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  // readDocData();
+  const renderedTodos = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  onSnapshot(collection(firestore, "teams"), (querySnapshot) => {
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      if (renderedTodos.includes(doc.id)) return; // guarding clause ID: 3ugh3eriuh2
+      // console.log(renderedTodos);
+      renderedTodos.push(doc.id);
+      const { todoText, category } = doc.data();
+
+      // 6.
+      const li = document.createElement("li");
+      li.textContent = `${todoText} (${category})`;
+
+      // 7.
+      ul.appendChild(li);
+    });
+  });
+
   contentContainer.appendChild(ul);
 }
